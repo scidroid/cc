@@ -1,0 +1,81 @@
+{
+  "name": "Juan Almanza",
+  "location": "Barranquilla, Colombia",
+  "contact": {
+    "email": "scidroidgames@gmail.com",
+    "website": {
+      "label": "scidroid.co",
+      "url": "http://www.scidroid.co"
+    },
+    "linkedin": {
+      "label": "linkedin.com/in/scidroid",
+      "url": "https://linkedin.com/in/scidroid"
+    }
+  },
+  "summary": "Passionate undergraduate student with solid leadership and engineering skills. Focused on creating solutions for underserved populations and advocating for STEM education and gender equality.",
+  "education": [
+    {
+      "institution": "Minerva University",
+      "location": "San Francisco, CA",
+      "degree": "Bachelor of Science, Mathematics and Social Sciences",
+      "duration": "August 2025 - May 2029",
+      "details": "United States most selective undergraduate program (>2%). Global rotation in San Francisco, Taipei, Seoul, Tokyo, Hyderabad, Buenos Aires, and Berlin."
+    },
+    {
+      "institution": "Colegio San Alberto Magno",
+      "location": "Barranquilla, Colombia",
+      "degree": "High School Diploma",
+      "duration": "February 2021 - December 2024",
+      "details": "GPA: 4.4 / 5.0 (2nd in class rank). 3rd place in the national programming contest for schools."
+    }
+  ],
+  "experience": [
+    {
+      "company": "Pulpoo, Inc.",
+      "location": "Aventura, FL",
+      "position": "Co-Founder & CTO",
+      "duration": "November 2023 - Present",
+      "responsibilities": [
+        "Architected and developed the core services powering Pulpoo’s mobile and web applications, including APIs and microservices, ensuring seamless integration and high scalability.",
+        "Recruited and led a team of engineers to build three internal products, enhancing enterprise capabilities and supporting platform adoption by tens of businesses with thousands of employees.",
+        "Delivered a robust performance management platform critical to improving employee evaluation processes, driving measurable productivity gains across enterprise-scale organizations."
+      ]
+    },
+    {
+      "company": "Women’s Association for Rural Development (ASOFI)",
+      "location": "Bogotá, Colombia",
+      "position": "Co-Founder & Technical Leader",
+      "duration": "April 2022 - Present",
+      "responsibilities": [
+        "Founded ASOFI, a member of the United Nations Generation Equality Leadership Group, aimed at advancing gender equality in STEM and empowering women in rural Colombia through education and technology.",
+        "Led the development of key software projects, including offline AI models for detecting diseases in cacao crops and interactive phone line systems for accessing large language models (LLMs) without internet connectivity.",
+        "Organized and facilitated programming bootcamps, providing STEM training to students from underserved populations.",
+        "Presented innovative research on gender equity and rural development in STEM at prestigious institutions such as Stanford University, Universidad de Los Andes, and United Nations."
+      ]
+    },
+    {
+      "company": "Stanford University",
+      "location": "Stanford, CA",
+      "position": "Research Intern",
+      "duration": "June 2023 - August 2024",
+      "responsibilities": [
+        "Conducted research on musical source separation systems and contributed to drug optimization research, working alongside Stanford faculty and utilizing neural networks, Fourier transforms, and machine learning techniques to improve audio processing accuracy, and efficiency, and enhance the identification and effectiveness of pharmaceutical compounds.",
+        "Presented both research findings at the Stanford Compression Forum.",
+        "Mentored students in coding and research skills, providing guidance on project development, data analysis, and academic writing while organizing talks with Stanford faculty, including Nobel Prize winners, and assisting with the internal organization of the research program."
+      ]
+    }
+  ],
+  "honors": [
+    "Bronze medal, International Olympiad in Artificial Intelligence (2024).",
+    "Gold medal (1st place), National Olympiad in Informatics (2021, 2022, 2023).",
+    "Rise Fellow, Global full-ride undergraduate scholarship by Schmidt Futures.",
+    "1st place, Community AI's Science Fair (2023).",
+    "Top 50 Scholar, Major League Hacking (2022).",
+    "Colombian Representative, International Olympiad in Informatics (2023)."
+  ],
+  "skills": [
+    "Experienced in building end-to-end applications in JavaScript and Python (React.js, Next.js, React Native, Expo, TailwindCSS, Express, Hono, FastAPI, Flask, Tensorflow, MongoDB, PostgreSQL).",
+    "High-performance systems and algorithms in C/C++, TypeScript, and Python.",
+    "Public Speaking and large-scale events organization."
+  ]
+}

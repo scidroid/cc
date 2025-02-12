@@ -1,0 +1,25 @@
+<header>
+  <h1>{{name}}</h1>
+  <nav>
+    <div>
+      <<components/pin.html>>
+      <p>{{location}}</p>
+    </div>
+
+    <div>
+      <<components/email.html>>
+      <a href="mailto:{{contact.email}}">{{contact.email}}</a>
+    </div>
+
+    <div>
+      <<components/web.html>>
+      <a href="{{contact.website.url}}">{{contact.website.label}}</a>
+    </div>
+
+    <div>
+      <<components/linkedin.html>>
+      <a href="{{contact.linkedin.url}}">{{contact.linkedin.label}}</a>
+    </div>
+  </nav>
+  <p>{{summary}}</p>
+</header>
