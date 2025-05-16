@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "start": "bun run src/index.ts",
-    "dev": "bun --watch src/index.ts"
+    "start:no-pdf": "bun run src/index.ts --no-pdf",
+    "dev": "bun --watch src/index.ts",
+    "serve": "bun src/server.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"

@@ -1,25 +1,36 @@
-<header>
-  <h1>{{name}}</h1>
-  <nav>
-    <div>
-      <<components/pin.html>>
-      <p>{{location}}</p>
-    </div>
+<header id="academic-header">
+  <img id="academic-photo" src="/shot.png" alt="Photo of {{name}}" />
 
-    <div>
+  <section id="academic-identity">
+    <h1>{{name}}</h1>
+    <div id="academic-subtitle">{{legend}}</div>
+  </section>
+
+  <section id="academic-affiliations">
+    <span> <<components/education.html>> {{main_affiliation}} </span>
+    <span> <<components/pin.html>> {{location}} </span>
+    <span>
+      <<components/download.html>>
+      <a href="/resume.pdf" class="cv-link" target="_blank">Download CV</a>
+    </span>
+  </section>
+
+  <section id="academic-contact">
+    <span>
       <<components/email.html>>
-      <a href="mailto:{{contact.email}}">{{contact.email}}</a>
-    </div>
-
-    <div>
+      <a href="mailto:{{contact.email.academic}}">{{contact.email.academic}}</a>
+    </span>
+    <span>
+      <<components/email.html>>
+      <a href="mailto:{{contact.email.personal}}">{{contact.email.personal}}</a>
+    </span>
+    <span>
       <<components/web.html>>
       <a href="{{contact.website.url}}">{{contact.website.label}}</a>
-    </div>
-
-    <div>
+    </span>
+    <span>
       <<components/linkedin.html>>
       <a href="{{contact.linkedin.url}}">{{contact.linkedin.label}}</a>
-    </div>
-  </nav>
-  <p>{{summary}}</p>
+    </span>
+  </section>
 </header>

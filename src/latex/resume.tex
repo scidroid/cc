@@ -1,0 +1,108 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{fontawesome}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{xcolor}
+
+\usepackage[
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue
+]{hyperref}
+
+\geometry{
+    left=0.68in,
+    right=0.68in,
+    top=0.62in,
+    bottom=0.62in
+}
+
+\pagestyle{empty}
+
+\titleformat{\section}
+    {\large\bfseries\scshape\raggedright\color{black}}
+    {}{0em}
+    {}
+    [\titlerule]
+
+\titlespacing*{\section}{0pt}{2.5ex}{1.2ex}
+
+\titleformat{\subsection}
+    {\normalsize\bfseries\scshape\raggedright}
+    {}{0em}
+    {}
+
+\newcommand{\email}[1]{\faEnvelope\hspace{0.5em}\href{mailto:#1}{#1}}
+\newcommand{\website}[2]{\faGlobe\hspace{0.5em}\href{#2}{#1}}
+\newcommand{\linkedin}[2]{\faLinkedin\hspace{0.5em}\href{#2}{#1}}
+\newcommand{\location}[1]{\faMapMarker\hspace{0.5em}#1}
+
+\newcommand{\datedsection}[2]{%
+  \par\noindent
+  \textbf{#1} \hfill \textbf{#2} \\
+}
+
+\newcommand{\role}[2]{%
+  \textit{#1} \hfill #2
+}
+
+\setlist{topsep=1pt,parsep=0pt,itemsep=0pt,partopsep=0pt,leftmargin=*}
+
+\begin{document}
+
+% Header
+\begin{center}
+    {\Large\textbf{@{name}@}}\\[0.25em]
+    {\normalsize @{legend}@}\\[0.25em]
+    \location{@{location}@} $\cdot$ \email{@{contact.email.academic}@} $\cdot$ \website{@{contact.website.label}@}{@{contact.website.url}@} $\cdot$ \linkedin{@{contact.linkedin.label}@}{@{contact.linkedin.url}@}
+\end{center}
+
+\vspace{0.15em}
+
+% Summary
+\section{Summary}
+@{summary.text}@
+
+% Education
+\section{Education}
+[[for edu in education]]
+\datedsection{@{edu.institution}@}{@{edu.duration}@}
+\role{@{edu.degree}@}{@{edu.location}@}\\
+@{edu.details}@
+[[endfor]]
+
+% Experience
+\section{Experience}
+[[for experience in experience]]
+\datedsection{@{experience.company}@}{@{experience.duration}@}
+\role{@{experience.position}@}{@{experience.location}@}
+\begin{itemize}
+[[for responsibility in experience.responsibilities]]
+    \item @{responsibility}@
+[[endfor]]
+\end{itemize}
+\vspace{0.25em}
+[[endfor]]
+
+% Honors and Awards
+\section{Honors \& Awards}
+\begin{itemize}
+[[for honor in honors]]
+    \item @{honor}@
+[[endfor]]
+\end{itemize}
+
+% Skills
+\section{Skills}
+\begin{itemize}
+[[for skill in skills]]
+    \item @{skill}@
+[[endfor]]
+\end{itemize}
+
+\end{document}

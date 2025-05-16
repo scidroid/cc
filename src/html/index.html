@@ -5,10 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/theme.css" />
     <title>{{name}}</title>
+
+    <meta name="description" content="{{summary.text}}" />
+    <meta name="author" content="{{name}}" />
+    <meta
+      name="keywords"
+      content="{{name}}, personal website, academic, research, publications,
+    projects"
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+
+    <link rel="icon" type="image/png" href="/shot.png" />
   </head>
   <body>
-    <div class="main">
-      <<header.html>>
-    </div>
+    <!-- Created using cc by Juan Almanza: github.com/scidroid/cc -->
+    <main>
+      <<header.html>> <<summary.html>> <<education.html>>
+      <<experience.html>> <<honors.html>> <<skills.html>>
+    </main>
   </body>
 </html>
