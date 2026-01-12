@@ -110,19 +110,20 @@ function getNestedValue(data: TemplateData, path: string): any {
 
 /**
  * Process conditionals in the template.
- * Syntax: [[if field]]...[[endif]]
+ * Syntax: [[if field]]...[[endif]] or [[if !field]]...[[endif]] for negation
  * @param template The template string.
  * @param data The data to be used in the template.
  * @returns The processed template string.
  */
 function processConditionals(template: string, data: TemplateData): string {
-  const ifStart = /\[\[if\s+(\w+(?:\.\w+)*)\]\]/g;
+  const ifStart = /\[\[if\s+(!?)(\w+(?:\.\w+)*)\]\]/g;
   let processedTemplate = template;
   let match;
 
   while ((match = ifStart.exec(processedTemplate)) !== null) {
-    const [fullMatch, fieldPath] = match;
+    const [fullMatch, negation, fieldPath] = match;
     const startIndex = match.index;
+    const isNegated = negation === "!";
 
     // Find matching endif
     let level = 1;
@@ -157,8 +158,9 @@ function processConditionals(template: string, data: TemplateData): string {
 
     const value = getNestedValue(data, fieldPath);
     const hasValue = value !== undefined && value !== null && value !== "";
+    const shouldInclude = isNegated ? !hasValue : hasValue;
 
-    if (hasValue) {
+    if (shouldInclude) {
       processedTemplate =
         processedTemplate.substring(0, startIndex) +
         content +

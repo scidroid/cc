@@ -136,18 +136,9 @@
         \kern 0.25 cm%
         \mbox{\hrefWithoutArrow{mailto:@{contact.email}@}{\color{black}{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}@{contact.email}@}}%
 [[if contact.phone]]\kern 0.25 cm\AND\kern 0.25 cm\mbox{\hrefWithoutArrow{tel:@{contact.phone}@}{\color{black}{\footnotesize\faPhone*}\hspace*{0.13cm}@{contact.phone}@}}%
-[[endif]]\kern 0.25 cm%
-        \AND%
-        \kern 0.25 cm%
-        \mbox{\hrefWithoutArrow{@{contact.website.url}@}{\color{black}{\footnotesize\faLink}\hspace*{0.13cm}@{contact.website.label}@}}%
-        \kern 0.25 cm%
-        \AND%
-        \kern 0.25 cm%
-        \mbox{\hrefWithoutArrow{@{contact.github.url}@}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}@{contact.github.label}@}}%
-        \kern 0.25 cm%
-        \AND%
-        \kern 0.25 cm%
-        \mbox{\hrefWithoutArrow{@{contact.linkedin.url}@}{\color{black}{\footnotesize\faLinkedin}\hspace*{0.13cm}@{contact.linkedin.label}@}}%
+[[endif]][[if !contact.phone]]\kern 0.25 cm\AND\kern 0.25 cm\mbox{\hrefWithoutArrow{@{contact.website.url}@}{\color{black}{\footnotesize\faLink}\hspace*{0.13cm}@{contact.website.label}@}}%
+[[endif]]\kern 0.25 cm\AND\kern 0.25 cm\mbox{\hrefWithoutArrow{@{contact.github.url}@}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}@{contact.github.label}@}}%
+        \kern 0.25 cm\AND\kern 0.25 cm\mbox{\hrefWithoutArrow{@{contact.linkedin.url}@}{\color{black}{\footnotesize\faLinkedin}\hspace*{0.13cm}@{contact.linkedin.label}@}}%
     \end{header}
 
     \section{Education}
