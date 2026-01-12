@@ -4,25 +4,143 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/theme.css" />
-    <title>{{name}}</title>
-
-    <meta name="description" content="{{summary.text}}" />
+    <title>{{name}} - Resume</title>
     <meta name="author" content="{{name}}" />
-    <meta
-      name="keywords"
-      content="{{name}}, personal website, academic, research, publications,
-    projects"
-    />
     <meta name="robots" content="index, follow" />
-    <meta name="googlebot" content="index, follow" />
-
-    <link rel="icon" type="image/jpg" href="/juan.jpg" />
   </head>
   <body>
-    <!-- Created using cc by Juan Almanza: github.com/scidroid/cc -->
     <main>
-      <<header.html>> <<summary.html>> <<education.html>>
-      <<experience.html>> <<honors.html>> <<skills.html>>
+      <header>
+        [[if photo]]<img src="{{photo}}" alt="{{name}}" class="photo" />[[endif]]
+        <div class="header-content">
+          <h1>{{name}}</h1>
+          <div class="contact">
+            <a href="mailto:{{contact.email}}" class="contact-item">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              {{contact.email}}
+            </a>
+            <a href="{{contact.website.url}}" class="contact-item">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+              </svg>
+              {{contact.website.label}}
+            </a>
+            <a href="{{contact.github.url}}" class="contact-item">
+              <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+              {{contact.github.label}}
+            </a>
+          </div>
+          <div class="header-meta">
+            <span class="location">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              {{location}}
+            </span>
+            <a href="/{{pdfFilename}}.pdf" download class="download-btn">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+              </svg>
+              Download PDF
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <section>
+        <h2>Education</h2>
+        [[for edu in education]]
+        <div class="entry">
+          <div class="entry-header">
+            <div>
+              <strong>{{edu.institution}}</strong>
+              <div class="subtitle">{{edu.degree}}</div>
+            </div>
+            <div class="date">{{edu.duration}}</div>
+          </div>
+          <ul>
+            [[for highlight in edu.highlights]]
+            <li>{{highlight}}</li>
+            [[endfor]]
+          </ul>
+        </div>
+        [[endfor]]
+      </section>
+
+      <section>
+        <h2>Experience</h2>
+        [[for exp in experience]]
+        <div class="entry">
+          <div class="entry-header">
+            <div>
+              <strong>{{exp.position}}</strong>
+              <div class="subtitle">{{exp.company}}</div>
+            </div>
+            <div class="date">
+              <div>{{exp.location}}</div>
+              <div>{{exp.duration}}</div>
+            </div>
+          </div>
+          <ul>
+            [[for highlight in exp.highlights]]
+            <li>{{highlight}}</li>
+            [[endfor]]
+          </ul>
+        </div>
+        [[endfor]]
+      </section>
+
+      <section>
+        <h2>Projects</h2>
+        [[for project in projects]]
+        <div class="entry">
+          <div class="entry-header">
+            <strong>{{project.name}}</strong>
+            <a href="{{project.url}}" class="link">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
+              </svg>
+              {{project.url_label}}
+            </a>
+          </div>
+          <ul>
+            [[for highlight in project.highlights]]
+            <li>{{highlight}}</li>
+            [[endfor]]
+          </ul>
+        </div>
+        [[endfor]]
+      </section>
+
+      <section>
+        <h2>Volunteering</h2>
+        [[for vol in volunteering]]
+        <p><strong>{{vol.org}}:</strong> {{vol.description}}</p>
+        [[endfor]]
+      </section>
+
+      <section>
+        <h2>Honors & Awards</h2>
+        [[for honor in honors]]
+        <div class="entry-header">
+          <div><strong>{{honor.title}}</strong> — {{honor.description}}</div>
+          <div class="date">{{honor.year}}</div>
+        </div>
+        [[endfor]]
+      </section>
+
+      <section>
+        <h2>Skills</h2>
+        [[for skill in skills]]
+        <p><strong>{{skill.category}}:</strong> {{skill.items}}</p>
+        [[endfor]]
+      </section>
     </main>
   </body>
 </html>

@@ -282,6 +282,16 @@ function processContent(
 
   // Handle LaTeX-specific replacements
   if (isLatex) {
+    // Handle tel: links before variable substitution (normalize phone numbers)
+    processedContent = processedContent.replace(
+      /\{tel:@\{([^}]+)\}@\}/g,
+      (match, key) => {
+        const phone = String(getNestedValue(data, key) || "");
+        const normalized = phone.replace(/[^\d+]/g, "");
+        return `{tel:${normalized}}`;
+      }
+    );
+
     // Replace @{key}@ syntax
     processedContent = replaceWithRegex(
       processedContent,
@@ -325,6 +335,16 @@ function processContent(
   processedContent = processedContent.replace(
     /href="mailto:{{(.*?)}}"/g,
     (match, key) => `href="mailto:${String(getNestedValue(data, key) || "")}"`
+  );
+
+  // Handle HTML tel: links (normalize phone numbers)
+  processedContent = processedContent.replace(
+    /href="tel:\{\{([^}]+)\}\}"/g,
+    (match, key) => {
+      const phone = String(getNestedValue(data, key) || "");
+      const normalized = phone.replace(/[^\d+]/g, "");
+      return `href="tel:${normalized}"`;
+    }
   );
 
   // Replace standard variables (only if not in LaTeX mode)

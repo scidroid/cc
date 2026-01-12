@@ -52,8 +52,10 @@ For sensitive information (phone number, address, etc.) that shouldn't be in the
 ```
 
 2. Run `bun run build` - this generates:
-   - `docs/resume.pdf` - Public version (no phone)
-   - `.hidden/resume.pdf` - Private version (with phone)
+   - `docs/<name>_cv.pdf` - Public version (no phone)
+   - `.hidden/<name>_cv.pdf` - Private version (with phone)
+
+PDF filenames are automatically generated from the `name` field (e.g., "Juan Almanza" → `juan_almanza_cv.pdf`).
 
 The `.hidden/` folder is gitignored. The secret data is deep-merged with `resume.json`, so you can override any field.
 
@@ -78,90 +80,72 @@ sudo apt-get install texlive-full
 ```
 cc/
 ├── resume.json          # Your resume data (edit this)
+├── .hidden/             # Private data (gitignored)
+│   ├── secret.json      # Sensitive info (phone, etc.)
+│   └── <name>_cv.pdf    # Private PDF with all data
 ├── src/
 │   ├── engine.ts        # Template engine core
-│   ├── index.ts         # Build script entry point
-│   ├── html/            # HTML templates
-│   │   ├── index.html   # Main HTML template
-│   │   ├── header.html
-│   │   ├── summary.html
-│   │   ├── education.html
-│   │   ├── experience.html
-│   │   ├── honors.html
-│   │   ├── skills.html
-│   │   └── components/  # Reusable HTML components
+│   ├── index.ts         # Build script
+│   ├── dev.ts           # Development server
+│   ├── html/
+│   │   └── index.html   # HTML template
 │   └── latex/
-│       └── resume.tex   # Main LaTeX template
-├── public/              # Static assets (CSS, images)
-│   ├── theme.css
-│   └── *.jpg
-└── docs/                # Build output
+│       └── resume.tex   # LaTeX template
+├── public/
+│   └── theme.css        # HTML styling
+└── docs/                # Build output (public)
     ├── index.html
-    └── resume.pdf
+    └── <name>_cv.pdf
 ```
 
 ## Data Schema
 
-Edit `resume.json` with your information. The engine supports nested objects and arrays:
+Edit `resume.json` with your information:
 
 ```json
 {
   "name": "Your Name",
-  "location": "City, Country",
-  "legend": "One-line description",
-  "main_affiliation": "Company or University",
+  "location": "City, State",
   "contact": {
-    "email": {
-      "personal": "you@example.com",
-      "academic": "you@university.edu"
-    },
-    "website": {
-      "label": "yoursite.com",
-      "url": "https://yoursite.com"
-    },
-    "linkedin": {
-      "label": "/in/yourname",
-      "url": "https://linkedin.com/in/yourname"
-    }
-  },
-  "summary": {
-    "text": "Your **professional summary** with bold support.",
-    "interests": {
-      "caption": "Currently working on:",
-      "items": [
-        "**Project 1** - description",
-        "**Project 2** - description"
-      ]
-    }
+    "email": "you@example.com",
+    "website": { "label": "yoursite.com", "url": "https://yoursite.com" },
+    "github": { "label": "username", "url": "https://github.com/username" }
   },
   "education": [
     {
-      "institution": "University Name",
-      "location": "City, State",
-      "degree": "B.Sc. in Field",
-      "duration": "August 2020 - May 2024",
-      "details": "Relevant coursework and achievements."
+      "institution": "University",
+      "degree": "BS in Field",
+      "duration": "Aug 2020 – May 2024",
+      "highlights": ["**Coursework:** Subject 1, Subject 2"]
     }
   ],
   "experience": [
     {
-      "company": "Company Name",
+      "company": "Company",
+      "position": "Title",
       "location": "City, State",
-      "position": "Job Title",
-      "duration": "Month Year - Present",
-      "responsibilities": [
-        "**Achievement 1** with measurable impact.",
-        "**Achievement 2** with specific results."
+      "duration": "Jan 2023 – Present",
+      "highlights": [
+        "Achievement with **bold** emphasis and metrics."
       ]
     }
   ],
+  "projects": [
+    {
+      "name": "Project Name",
+      "url": "https://project.com",
+      "url_label": "project.com",
+      "highlights": ["Description of what you built."]
+    }
+  ],
+  "volunteering": [
+    { "org": "Organization", "description": "What you did." }
+  ],
   "honors": [
-    "**Award Name**, Organization (Year).",
-    "**Recognition**, Details (Year)."
+    { "title": "Award", "description": "Details", "year": "2024" }
   ],
   "skills": [
-    "Skill category with **highlighted** technologies.",
-    "Another skill area."
+    { "category": "Languages", "items": "Python, JavaScript, C++" }
   ]
 }
 ```

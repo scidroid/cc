@@ -1,87 +1,121 @@
 {
-  "name": "Juan Almanza-Gamarra",
-  "location": "Barranquilla, Colombia",
-  "legend": "Freshman undergraduate student solving the most pressing problems around the world using computational methods.",
-  "main_affiliation": "Minerva University",
+  "name": "Juan Almanza",
+  "photo": "/juan.jpg",
+  "location": "San Francisco, CA",
   "contact": {
-    "email": {
-      "personal": "juan@almanza.cc",
-      "academic": "juan.gamarra@uni.minerva.edu"
-    },
+    "email": "juan.gamarra@uni.minerva.edu",
     "website": {
       "label": "scidroid.co",
-      "url": "https://www.scidroid.co"
+      "url": "https://scidroid.co/"
     },
-    "linkedin": {
-      "label": "/in/scidroid",
-      "url": "https://linkedin.com/in/scidroid"
-    }
-  },
-  "summary": {
-    "text": "Freshman **Computational Sciences** and **Natural Sciences** student at **Minerva University** with a passion for using technology to **solve big problems**, with a deep knowledge of **software engineering** and **research methods** and their applications in the real world.",
-    "interests": {
-      "caption": "I am working on:",
-      "items": [
-        "**AI** to improve human productivity - through Pulpoo.com.",
-        "**Software applications** that can improve the quality of life of underserved populations - through ASOFI.",
-        "**Public Health** and **Medical Research** using computational methods - through OviCol.co.",
-        "**Quality Education** for all - through ASOFI and Turtiq.com."
-      ]
+    "github": {
+      "label": "scidroid",
+      "url": "https://github.com/scidroid"
     }
   },
   "education": [
     {
       "institution": "Minerva University",
-      "location": "San Francisco, CA",
-      "degree": "B.Sc. Computational Sciences and Natural Sciences",
-      "duration": "August 2025 - May 2029",
-      "details": "Rigorous undergraduate education with **global rotation** (San Francisco, Tokyo, Buenos Aires, and Berlin), Coursework: **Formal Analysis**, **Empirical Analysis**, **Multimodal Communications**, and **Complex Systems**."
+      "degree": "BS in Computational Sciences and Natural Sciences",
+      "duration": "Aug 2025 – June 2029",
+      "highlights": [
+        "**Coursework:** Formal Analyses, Multimodal Communications, Empirical Analyses, Complex Systems"
+      ]
     }
   ],
   "experience": [
     {
-      "company": "Pulpoo, Inc.",
+      "company": "Pulpoo",
+      "position": "Software Engineer",
       "location": "Aventura, FL",
-      "position": "Technical Founder",
-      "duration": "November 2023 - Present",
-      "responsibilities": [
-        "**Architected and developed** the core services powering Pulpoo's Mobile, Web applications, and APIs.",
-        "**Recruited and led** a team of engineers to build a scalable integrated software platform serving **tens of businesses** with **thousands of employees**.",
-        "Built **AI workflows** and developed static systems for granularly **monitoring and improving employee productivity**."
-      ]
-    },
-    {
-      "company": "Women's Association for Rural Development (ASOFI)",
-      "location": "Bogotá, Colombia",
-      "position": "Founder & Technical Leader",
-      "duration": "April 2022 - Present",
-      "responsibilities": [
-        "Led a non-profit organization to develop **scalable solutions** for the rural Colombian population, with a seat on the **UN Women's Generation Equality Leadership Group**.",
-        "Developed novel **AI models** for detecting diseases in cacao crops on offline low-end mobile devices, and offline **LLM** use through phone lines.",
-        "Organized educational bootcamps on **Programming** and **AI development** for rural students in collaboration with **Universidad de los Andes**."
+      "duration": "Sept 2023 – Aug 2025",
+      "highlights": [
+        "Built lead extraction system using to classify, contact and convert 30K+ potential clients per location from enterprise databases; deployed across 20+ companies including Samsung and General Motors.",
+        "Developed full-stack product including APIs, mobile app, and web dashboard; GM built predictive scheduling on this platform, improving service appointment bookings from 40% to over 90% across 10+ dealerships."
       ]
     },
     {
       "company": "Stanford University",
-      "location": "Stanford, CA",
       "position": "Research Intern",
-      "duration": "June 2023 - August 2024",
-      "responsibilities": [
-        "Developed novel mechanisms for **Source Separation** on Signals and **Drug Discovery** for cancer development.",
-        "Applied **Fourier Transforms**, **Neural Networks** and **Data Analysis** to produce state-of-the-art results in both projects.",
-        "Mentored students in coding and research skills, and organized talks with Stanford faculty, including **Nobel Prize winners**."
+      "location": "Stanford, CA",
+      "duration": "Summer 2023, 2024",
+      "highlights": [
+        "Developed FFT-based instrument source separation system for orchestra recording using TensorFlow; trained on 10,000+ audio samples across 20 instrument classes, achieving 50% accuracy.",
+        "Co-mentored 4 students on ML drug discovery project for EZH2 cancer inhibitors, achieving 9% error in potency prediction; delivered 2 CS workshops to 60 high school students."
       ]
     }
   ],
+  "projects": [
+    {
+      "name": "Col-Ovo",
+      "url": "https://colovo.chilloa.org",
+      "url_label": "colovo.chilloa.org",
+      "highlights": [
+        "Trained a mosquito egg detection model (YOLOv8s) trained on 27,256 annotated eggs, achieving 83% mAP; in pilot testing for national deployment in Colombia.",
+        "Developed Aedes, a cloud-based annotation platform for ovitrap images enabling crowdsourced data collection, annotation and model retraining for Col-Ovo using React."
+      ]
+    },
+    {
+      "name": "AgroScan",
+      "url": "https://github.com/scidroid/agroscan",
+      "url_label": "scidroid/agroscan",
+      "highlights": [
+        "Platform for distributing updatable lightweight vision models for agricultural tasks (e.g., cacao crop disease detection) to low-resource smartphones via Javascript Progressive Web Apps."
+      ]
+    },
+    {
+      "name": "Blackboard AI",
+      "url": "https://blackboard.almanza.cc",
+      "url_label": "blackboard.almanza.cc",
+      "highlights": [
+        "Experimental tool enabling AI to construct complex visual explanations from simple shapes on a real-time blackboard, featuring voice narration and LaTeX rendering. Using Claude and React."
+      ]
+    }
+  ],
+  "volunteering": [
+    {
+      "org": "Google Developers Group Barranquilla",
+      "description": "Organized and delivered 10+ talks on AI/ML to 1,000+ attendees."
+    },
+    {
+      "org": "Virufy",
+      "description": "Built data visualization tools for training data collection of 14,800+ audio samples from 80+ countries."
+    },
+    {
+      "org": "ASOFI",
+      "description": "Founded an organization recognized by UN Women creating educational STEM programs in Colombia."
+    }
+  ],
   "honors": [
-    "**Bronze medal**, International Olympiad in Artificial Intelligence IOAI (2024).",
-    "**Colombian Representative**, International Olympiad in Informatics IOI (2023).",
-    "**Gold medal (1st place)**, National Olympiad in Informatics NOI (2021, 2022, 2023).",
-    "**Rise Fellow**, Rhodes Trust and Schmidt Futures full-ride scholarship (2024)."
+    {
+      "title": "RISE Fellow",
+      "description": "Eric Schmidt and Rhodes Trust scholarship (<1% acceptance)",
+      "year": "2024"
+    },
+    {
+      "title": "Bronze Medalist",
+      "description": "at the International Olympiad in Artificial Intelligence (IOAI)",
+      "year": "2024"
+    },
+    {
+      "title": "National Representative",
+      "description": "at the International Olympiad in Informatics (IOI)",
+      "year": "2023"
+    },
+    {
+      "title": "3x National Champion",
+      "description": "at the Colombian Olympiad in Informatics",
+      "year": "2021, 2022, 2023"
+    }
   ],
   "skills": [
-    "Building **scalable end-to-end applications** in **JavaScript** and **Python**.",
-    "Architecting **high-performance systems** and **algorithms** in **C/C++** and **TypeScript**.",
-    "Conducting **high-impact research** on computational methods and applications."
+    {
+      "category": "Languages",
+      "items": "Python, TypeScript, JavaScript, C, C++, SQL, HTML, CSS"
+    },
+    {
+      "category": "ML & Frameworks",
+      "items": "TensorFlow, PyTorch, YOLO, React FastAPI, Express, Tailwind CSS, PostgreSQL, Git"
+    }
   ]
 }

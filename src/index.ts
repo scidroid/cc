@@ -6,6 +6,19 @@ import { $ } from "bun";
 type JsonObject = Record<string, unknown>;
 
 /**
+ * Normalize a name to a filename: "Juan Almanza" -> "juan_almanza_cv"
+ */
+function normalizeFilename(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Remove accents
+    .replace(/[^a-z0-9\s]/g, "") // Remove special chars
+    .trim()
+    .replace(/\s+/g, "_") + "_cv";
+}
+
+/**
  * Deep merge two objects, with source values overwriting target values
  */
 function deepMerge(target: JsonObject, source: JsonObject): JsonObject {
@@ -70,16 +83,22 @@ async function main() {
       fs.cpSync(publicDir, docsDir, { recursive: true });
     }
 
+    // Generate normalized filename from name
+    const pdfName = normalizeFilename(resumeData.name || "resume");
+
+    // Add pdfFilename to data for HTML template
+    const htmlData = { ...resumeData, pdfFilename: pdfName };
+
     // Generate public HTML version
-    write("../docs/index.html", minifyHTML(compile("html/index.html", resumeData)));
+    write("../docs/index.html", minifyHTML(compile("html/index.html", htmlData)));
     console.log("HTML generated");
 
     if (!skipPDF) {
       // Generate public PDF
-      write("../docs/resume.tex", compile("latex/resume.tex", resumeData));
+      write(`../docs/${pdfName}.tex`, compile("latex/resume.tex", resumeData));
       console.log("Generating public PDF...");
-      const publicSuccess = await generatePDF(docsDir);
-      console.log(publicSuccess ? "Public PDF generated" : "Public PDF failed");
+      const publicSuccess = await generatePDF(docsDir, pdfName);
+      console.log(publicSuccess ? `Public PDF generated: ${pdfName}.pdf` : "Public PDF failed");
 
       // Generate private PDF with secret data if secret.json exists
       const secretPath = path.resolve(__dirname, "../.hidden/secret.json");
@@ -89,13 +108,13 @@ async function main() {
 
         const hiddenDir = path.resolve(__dirname, "../.hidden");
         fs.writeFileSync(
-          path.join(hiddenDir, "resume.tex"),
+          path.join(hiddenDir, `${pdfName}.tex`),
           compile("latex/resume.tex", privateData)
         );
 
         console.log("Generating private PDF...");
-        const privateSuccess = await generatePDF(hiddenDir);
-        console.log(privateSuccess ? "Private PDF generated" : "Private PDF failed");
+        const privateSuccess = await generatePDF(hiddenDir, pdfName);
+        console.log(privateSuccess ? `Private PDF generated: ${pdfName}.pdf` : "Private PDF failed");
       }
     } else {
       console.log("Skipping PDF generation");
