@@ -24,6 +24,8 @@ function escapeLatexSpecialChars(str: string): string {
     [/_/g, "\\_"],
     [/{/g, "\\{"],
     [/}/g, "\\}"],
+    [/</g, "\\textless{}"],
+    [/>/g, "\\textgreater{}"],
   ];
 
   return replacements.reduce(

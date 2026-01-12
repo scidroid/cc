@@ -100,6 +100,14 @@ async function main() {
       const publicSuccess = await generatePDF(docsDir, pdfName);
       console.log(publicSuccess ? `Public PDF generated: ${pdfName}.pdf` : "Public PDF failed");
 
+      // Copy to resume.pdf and cv.pdf for backwards compatibility
+      if (publicSuccess) {
+        const pdfPath = path.join(docsDir, `${pdfName}.pdf`);
+        fs.copyFileSync(pdfPath, path.join(docsDir, "resume.pdf"));
+        fs.copyFileSync(pdfPath, path.join(docsDir, "cv.pdf"));
+        console.log("Copied to resume.pdf and cv.pdf");
+      }
+
       // Generate private PDF with secret data if secret.json exists
       const secretPath = path.resolve(__dirname, "../.hidden/secret.json");
       if (fs.existsSync(secretPath)) {
