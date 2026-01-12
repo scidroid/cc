@@ -107,6 +107,73 @@ function getNestedValue(data: TemplateData, path: string): any {
 }
 
 /**
+ * Process conditionals in the template.
+ * Syntax: [[if field]]...[[endif]]
+ * @param template The template string.
+ * @param data The data to be used in the template.
+ * @returns The processed template string.
+ */
+function processConditionals(template: string, data: TemplateData): string {
+  const ifStart = /\[\[if\s+(\w+(?:\.\w+)*)\]\]/g;
+  let processedTemplate = template;
+  let match;
+
+  while ((match = ifStart.exec(processedTemplate)) !== null) {
+    const [fullMatch, fieldPath] = match;
+    const startIndex = match.index;
+
+    // Find matching endif
+    let level = 1;
+    let searchStartIndex = startIndex + fullMatch.length;
+    let endifIndex = -1;
+
+    while (level > 0 && searchStartIndex < processedTemplate.length) {
+      const nextIf = processedTemplate.indexOf("[[if", searchStartIndex);
+      const nextEndif = processedTemplate.indexOf("[[endif]]", searchStartIndex);
+
+      if (nextEndif === -1) {
+        throw new Error("Unbalanced conditional: missing [[endif]]");
+      }
+
+      if (nextIf !== -1 && nextIf < nextEndif) {
+        level++;
+        searchStartIndex = nextIf + 4;
+      } else {
+        level--;
+        if (level === 0) {
+          endifIndex = nextEndif;
+        }
+        searchStartIndex = nextEndif + 9;
+      }
+    }
+
+    const content = processedTemplate.substring(
+      startIndex + fullMatch.length,
+      endifIndex
+    );
+    const endIndex = endifIndex + 9;
+
+    const value = getNestedValue(data, fieldPath);
+    const hasValue = value !== undefined && value !== null && value !== "";
+
+    if (hasValue) {
+      processedTemplate =
+        processedTemplate.substring(0, startIndex) +
+        content +
+        processedTemplate.substring(endIndex);
+      ifStart.lastIndex = startIndex + content.length;
+    } else {
+      processedTemplate =
+        processedTemplate.substring(0, startIndex) +
+        processedTemplate.substring(endIndex);
+      ifStart.lastIndex = startIndex;
+    }
+  }
+
+  return processedTemplate;
+}
+
+/**
  * Process for loops in the template, handling nested loops correctly.
  * @param template The template string.
  * @param data The data to be used in the template.
@@ -207,8 +274,11 @@ function processContent(
   basePath?: string,
   isLatex: boolean = false
 ): string {
-  // Process nested for loops first
-  let processedContent = processForLoops(content, data, basePath, isLatex);
+  // Process conditionals first
+  let processedContent = processConditionals(content, data);
+
+  // Process nested for loops
+  processedContent = processForLoops(processedContent, data, basePath, isLatex);
 
   // Handle LaTeX-specific replacements
   if (isLatex) {

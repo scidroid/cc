@@ -1,65 +1,347 @@
 # CC - Resume Builder
 
-Generate HTML and PDF resumes using Bun and LaTeX.
+A template engine that generates HTML and PDF resumes from a single JSON data source.
 
-## Setup
+## Quick Start
 
-### Prerequisites
+```bash
+# Install dependencies
+bun install
+
+# Start development server with live reload
+bun dev
+
+# Build HTML and PDF for production
+bun run build
+
+# Build HTML only (faster)
+bun run build:html
+```
+
+Outputs are generated in the `docs/` folder.
+
+## Development Server
+
+Start the dev server for real-time preview:
+
+```bash
+bun dev
+```
+
+This starts a local server at `http://localhost:3000` with:
+
+- **Live reload** - Browser auto-refreshes when files change
+- **File watching** - Monitors `resume.json`, `src/html/`, and `public/`
+- **Hot reloading** - Uses Bun's `--hot` mode for instant server updates without restart
+- **Fast rebuilds** - Only rebuilds HTML (skips PDF for speed)
+
+The dev server is ideal for iterating on your resume content and styling. When you're ready to generate the final PDF, run `bun run build`.
+
+## Private Resume
+
+For sensitive information (phone number, address, etc.) that shouldn't be in the public resume:
+
+1. Create `.hidden/secret.json` with private data:
+
+```json
+{
+  "contact": {
+    "phone": "+1 (555) 123-4567"
+  }
+}
+```
+
+2. Run `bun run build` - this generates:
+   - `docs/resume.pdf` - Public version (no phone)
+   - `.hidden/resume.pdf` - Private version (with phone)
+
+The `.hidden/` folder is gitignored. The secret data is deep-merged with `resume.json`, so you can override any field.
+
+## Prerequisites
 
 - [Bun](https://bun.sh) - JavaScript runtime
-- [LaTeX](https://www.latex-project.org/get/) (with `pdflatex`) - PDF generation
-  - macOS: `brew install texlive`
-  - Ubuntu/Debian: `sudo apt-get install texlive-full`
-  - Windows: Install MiKTeX or TeX Live
+- [LaTeX](https://www.latex-project.org/get/) with `pdflatex` (for PDF generation)
 
-### Usage
+```bash
+# macOS
+brew install texlive
 
-1. Edit `resume.json` with your data
-2. Run `bun start` to build HTML and PDF versions
-3. Use `bun start --no-pdf` to skip PDF generation
-4. Find outputs in the `docs` folder:
-   - `index.html` - Web version
-   - `resume.pdf` - PDF version
-5. Contents of `public/` directory are copied to `docs/` (for CSS, images, etc.)
+# Ubuntu/Debian
+sudo apt-get install texlive-full
 
-## Template System
+# Windows
+# Install MiKTeX or TeX Live
+```
 
-### Locations
+## Project Structure
 
-- `src/html/` - HTML templates (main: `index.html`)
-- `src/latex/` - LaTeX templates (main: `resume.tex`)
+```
+cc/
+├── resume.json          # Your resume data (edit this)
+├── src/
+│   ├── engine.ts        # Template engine core
+│   ├── index.ts         # Build script entry point
+│   ├── html/            # HTML templates
+│   │   ├── index.html   # Main HTML template
+│   │   ├── header.html
+│   │   ├── summary.html
+│   │   ├── education.html
+│   │   ├── experience.html
+│   │   ├── honors.html
+│   │   ├── skills.html
+│   │   └── components/  # Reusable HTML components
+│   └── latex/
+│       └── resume.tex   # Main LaTeX template
+├── public/              # Static assets (CSS, images)
+│   ├── theme.css
+│   └── *.jpg
+└── docs/                # Build output
+    ├── index.html
+    └── resume.pdf
+```
 
-### Syntax
+## Data Schema
 
-**HTML Templates:**
-- `{{key}}` - Insert content from resume.json (supports `{{person.name}}`)
-- `<<path/to/template.html>>` - Include another template
+Edit `resume.json` with your information. The engine supports nested objects and arrays:
 
-**LaTeX Templates:**
-- `@{key}@` - Insert content from resume.json (supports `@{person.name}@`)
-- `<<path/to/template.tex>>` - Include another template
+```json
+{
+  "name": "Your Name",
+  "location": "City, Country",
+  "legend": "One-line description",
+  "main_affiliation": "Company or University",
+  "contact": {
+    "email": {
+      "personal": "you@example.com",
+      "academic": "you@university.edu"
+    },
+    "website": {
+      "label": "yoursite.com",
+      "url": "https://yoursite.com"
+    },
+    "linkedin": {
+      "label": "/in/yourname",
+      "url": "https://linkedin.com/in/yourname"
+    }
+  },
+  "summary": {
+    "text": "Your **professional summary** with bold support.",
+    "interests": {
+      "caption": "Currently working on:",
+      "items": [
+        "**Project 1** - description",
+        "**Project 2** - description"
+      ]
+    }
+  },
+  "education": [
+    {
+      "institution": "University Name",
+      "location": "City, State",
+      "degree": "B.Sc. in Field",
+      "duration": "August 2020 - May 2024",
+      "details": "Relevant coursework and achievements."
+    }
+  ],
+  "experience": [
+    {
+      "company": "Company Name",
+      "location": "City, State",
+      "position": "Job Title",
+      "duration": "Month Year - Present",
+      "responsibilities": [
+        "**Achievement 1** with measurable impact.",
+        "**Achievement 2** with specific results."
+      ]
+    }
+  ],
+  "honors": [
+    "**Award Name**, Organization (Year).",
+    "**Recognition**, Details (Year)."
+  ],
+  "skills": [
+    "Skill category with **highlighted** technologies.",
+    "Another skill area."
+  ]
+}
+```
 
-**Common Features:**
-- Loops: `[[for item in arrayKey]] ... [[endfor]]`
-- Bold text: `**bold**` in JSON converts to `<strong>` (HTML) or `\textbf{}` (LaTeX)
-- LaTeX templates also support `{{#each arrayKey}} ... {{/each}}` with `{{this}}`
+## Template Syntax
 
-### Customization
+### Variable Substitution
 
-- HTML: Edit files in `src/html/` and CSS in `public/`
-- LaTeX: Modify `.tex` files in `src/latex/`
+Access data using dot notation for nested values.
 
-### Special Behaviors
+**HTML templates:**
+```html
+<h1>{{name}}</h1>
+<p>{{contact.email.personal}}</p>
+```
 
-- Emails format as `user [at] domain.com` in HTML (not in `mailto:` links)
-- LaTeX special characters (`%`, `$`, `_`, etc.) automatically escaped
-- LaTeX compilation runs twice for proper references
-- Temporary LaTeX files (`.aux`, `.log`, `.out`) automatically removed
+**LaTeX templates** (use `@{...}@` to avoid conflicts with LaTeX syntax):
+```latex
+\textbf{@{name}@}
+\href{mailto:@{contact.email.personal}@}{Email}
+```
 
-### Troubleshooting PDF Generation
+### Template Includes
 
-- Verify `pdflatex` is installed and accessible
-- Check console for LaTeX errors
-- Ensure required LaTeX packages are installed
-- Look for syntax errors in LaTeX templates
-- Watch for unescaped special characters in your JSON data
+Include other template files using `<<path>>`. Paths are relative to the current template's directory.
+
+```html
+<!-- In src/html/index.html -->
+<<header.html>>
+<<components/email.html>>
+```
+
+```latex
+% In src/latex/resume.tex
+<<sections/education.tex>>
+```
+
+### Loops
+
+Iterate over arrays with `[[for item in array]]`:
+
+```html
+[[for job in experience]]
+<div class="job">
+  <h3>{{job.company}}</h3>
+  <p>{{job.position}}</p>
+  [[for task in job.responsibilities]]
+  <li>{{task}}</li>
+  [[endfor]]
+</div>
+[[endfor]]
+```
+
+Loops can be nested. The inner loop accesses the parent's iterator variable.
+
+### Conditionals
+
+Show content only if a field exists:
+
+```html
+[[if contact.phone]]
+<p>Phone: {{contact.phone}}</p>
+[[endif]]
+```
+
+```latex
+[[if contact.phone]] $\cdot$ \phone{@{contact.phone}@}[[endif]]
+```
+
+Conditionals can be nested and work with any field path.
+
+**LaTeX alternative syntax** with `{{#each}}`:
+```latex
+{{#each skills}}
+\item {{this}}
+{{/each}}
+```
+
+### Bold Text
+
+Use markdown-style `**bold**` in your JSON data:
+
+```json
+{
+  "summary": "Expert in **machine learning** and **data analysis**."
+}
+```
+
+This automatically converts to:
+- HTML: `<strong>machine learning</strong>`
+- LaTeX: `\textbf{machine learning}`
+
+## Special Behaviors
+
+### Email Obfuscation
+
+Email addresses in HTML are automatically formatted as `user [at] domain.com` for spam protection. This does **not** apply to `mailto:` links, which preserve the original format.
+
+### LaTeX Character Escaping
+
+These characters are automatically escaped in LaTeX output:
+
+| Character | Escaped As |
+|-----------|------------|
+| `\` | `\textbackslash{}` |
+| `&` | `\&` |
+| `%` | `\%` |
+| `$` | `\$` |
+| `#` | `\#` |
+| `_` | `\_` |
+| `{` | `\{` |
+| `}` | `\}` |
+| `^` | `\textasciicircum{}` |
+| `~` | `\textasciitilde{}` |
+
+### PDF Generation
+
+The build process runs `pdflatex` twice to ensure proper resolution of references and links. Temporary files (`.aux`, `.log`, `.out`) are automatically cleaned up.
+
+## Customization
+
+### Styling
+
+- **HTML**: Edit `public/theme.css` for web styling
+- **LaTeX**: Modify packages and formatting in `src/latex/resume.tex`
+
+### Adding Sections
+
+1. Create a new template file (e.g., `src/html/publications.html`)
+2. Add the include directive to the main template: `<<publications.html>>`
+3. Add corresponding data to `resume.json`
+
+### Creating Components
+
+Reusable components go in `src/html/components/`. Include them with:
+
+```html
+<<components/social-link.html>>
+```
+
+## Troubleshooting
+
+### PDF generation fails
+
+1. Verify `pdflatex` is installed: `which pdflatex`
+2. Check for LaTeX syntax errors in the console output
+3. Ensure all required LaTeX packages are installed
+4. Look for unescaped special characters (the engine handles most, but custom LaTeX code needs manual escaping)
+
+### Variables not rendering
+
+1. Check for typos in variable names
+2. Verify the path matches your JSON structure (use dot notation: `contact.email.personal`)
+3. Ensure arrays use the correct `[[for]]` syntax
+
+### Build errors
+
+1. Run `bun install` to ensure dependencies are installed
+2. Check that `resume.json` is valid JSON (no trailing commas, proper quotes)
+
+## Engine API
+
+The template engine exports these functions for programmatic use:
+
+```typescript
+import { compile, read, write, minifyHTML } from "./src/engine";
+
+// Compile a template with data
+const html = compile("html/index.html", resumeData);
+
+// Read a file relative to src/
+const content = read("../resume.json");
+
+// Write a file relative to src/
+write("../docs/output.html", content);
+
+// Minify HTML output
+const minified = minifyHTML(html);
+```
+
+## License
+
+MIT
